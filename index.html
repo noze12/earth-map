@@ -35,10 +35,9 @@
       const camera = new THREE.PerspectiveCamera()
       camera.aspect = window.innerWidth / window.innerHeight
       camera.updateProjectionMatrix()
-      Object.assign(
-        camera.position,
-        globe.getCoords(p.coords.latitude, p.coords.longitude, -0.01)
-      )
+      camera.position.z = 99
+      globe.rotateOnWorldAxis(new THREE.Vector3(0,1,0), -p.coords.longitude / 180 * Math.PI)
+      globe.rotateOnWorldAxis(new THREE.Vector3(1,0,0), p.coords.latitude / 180 * Math.PI)
       
       const controls = new THREE.DeviceOrientationControls(camera);
 
