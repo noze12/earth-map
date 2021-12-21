@@ -39,11 +39,13 @@
       globe.rotateOnWorldAxis(new THREE.Vector3(0,1,0), -p.coords.longitude / 180 * Math.PI)
       globe.rotateOnWorldAxis(new THREE.Vector3(1,0,0), p.coords.latitude / 180 * Math.PI)
       
-      const controls = new THREE.DeviceOrientationControls(camera);
+      const controls = new THREE.DeviceOrientationControls(camera)
+      const _q1i = new THREE.Quaternion(-Math.sqrt(0.5), 0, 0, Math.sqrt(0.5)).invert()
 
       const animate = () => {
         renderer.render(scene, camera)
         controls.update()
+        camera.quaternion.multiply(_q1i)
         requestAnimationFrame(animate)
       }
       animate()
