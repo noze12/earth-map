@@ -34,7 +34,7 @@
 			this.object.rotation.reorder( 'YXZ' );
 			this.enabled = true;
 			this.deviceOrientation = {};
-			this.screenOrientation = 0;
+			//this.screenOrientation = 0;
 			this.alphaOffset = 0; // radians
 
 			const onDeviceOrientationChangeEvent = function ( event ) {
@@ -45,12 +45,12 @@
 
 			const onScreenOrientationChangeEvent = function () {
 
-				scope.screenOrientation = window.orientation || 0;
+				//scope.screenOrientation = window.orientation || 0;
 
 			}; // The angles alpha, beta and gamma form a set of intrinsic Tait-Bryan angles of type Z-X'-Y''
 
 
-			const setObjectQuaternion = function ( quaternion, alpha, beta, gamma, orient ) {
+			const setObjectQuaternion = function ( quaternion, alpha, beta, gamma ) {
 
 				_euler.set( beta, alpha, - gamma, 'YXZ' ); // 'ZXY' for the device, but 'YXZ' for us
 
@@ -59,7 +59,7 @@
 
 				// quaternion.multiply( _q1 ); // camera looks out the back of the device, not the top
 
-				quaternion.multiply( _q0.setFromAxisAngle( _zee, - orient ) ); // adjust for screen orientation
+				//quaternion.multiply( _q0.setFromAxisAngle( _zee, - orient ) ); // adjust for screen orientation
 
 			};
 
@@ -117,9 +117,9 @@
 
 					const gamma = device.gamma ? THREE.MathUtils.degToRad( device.gamma ) : 0; // Y''
 
-					const orient = scope.screenOrientation ? THREE.MathUtils.degToRad( scope.screenOrientation ) : 0; // O
+					//const orient = scope.screenOrientation ? THREE.MathUtils.degToRad( scope.screenOrientation ) : 0; // O
 
-					setObjectQuaternion( scope.object.quaternion, alpha, beta, gamma, orient );
+					setObjectQuaternion( scope.object.quaternion, alpha, beta, gamma );
 
 					if ( 8 * ( 1 - lastQuaternion.dot( scope.object.quaternion ) ) > EPS ) {
 
