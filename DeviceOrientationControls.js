@@ -31,14 +31,14 @@
 			const EPS = 0.000001;
 			const lastQuaternion = new THREE.Quaternion();
 			this.object = object;
-			this.object.rotation.reorder( 'YXZ' );
+			this.object.rotation.reorder( 'ZXY' );
 			this.enabled = true;
 			this.deviceOrientation = {};
 			//this.screenOrientation = 0;
 			this.alphaOffset = 0; // radians
 
       // https://developers.google.com/web/updates/2016/03/device-orientation-changes
-      const deviceOrientationEventName = 'ondeviceorientationabsolute' in window ? 'deviceorientationabsolute' : 'orientationchange'
+      const deviceOrientationEventName = 'ondeviceorientationabsolute' in window ? 'deviceorientationabsolute' : 'deviceorientation'
 
 			const onDeviceOrientationChangeEvent = function ( event ) {
 
@@ -55,7 +55,8 @@
 
 			const setObjectQuaternion = function ( quaternion, alpha, beta, gamma ) {
 
-				_euler.set( beta, alpha, - gamma, 'YXZ' ); // 'ZXY' for the device, but 'YXZ' for us
+				_euler.set( beta, gamma, alpha, 'ZXY' );
+				//_euler.set( beta, -alpha, - gamma, 'YXZ' ); // 'ZXY' for the device, but 'YXZ' for us
 
 
 				quaternion.setFromEuler( _euler ); // orient the device
