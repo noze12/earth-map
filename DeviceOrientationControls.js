@@ -37,6 +37,9 @@
 			//this.screenOrientation = 0;
 			this.alphaOffset = 0; // radians
 
+      // https://developers.google.com/web/updates/2016/03/device-orientation-changes
+      const deviceOrientationEventName = 'ondeviceorientationabsolute' in window ? 'deviceorientationabsolute' : 'orientationchange'
+
 			const onDeviceOrientationChangeEvent = function ( event ) {
 
 				scope.deviceOrientation = event;
@@ -75,7 +78,7 @@
 						if ( response == 'granted' ) {
 
 							window.addEventListener( 'orientationchange', onScreenOrientationChangeEvent );
-							window.addEventListener( 'deviceorientation', onDeviceOrientationChangeEvent );
+							window.addEventListener( deviceOrientationEventName, onDeviceOrientationChangeEvent );
 
 						}
 
@@ -88,7 +91,7 @@
 				} else {
 
 					window.addEventListener( 'orientationchange', onScreenOrientationChangeEvent );
-					window.addEventListener( 'deviceorientation', onDeviceOrientationChangeEvent );
+					window.addEventListener( deviceOrientationEventName, onDeviceOrientationChangeEvent );
 
 				}
 
@@ -99,7 +102,7 @@
 			this.disconnect = function () {
 
 				window.removeEventListener( 'orientationchange', onScreenOrientationChangeEvent );
-				window.removeEventListener( 'deviceorientation', onDeviceOrientationChangeEvent );
+				window.removeEventListener( deviceOrientationEventName, onDeviceOrientationChangeEvent );
 				scope.enabled = false;
 
 			};
