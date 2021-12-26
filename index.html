@@ -41,19 +41,6 @@
               })
             )
             .polygonStrokeColor(() => "black");
-          const renderer = new THREE.WebGLRenderer();
-          renderer.setSize(window.innerWidth, window.innerHeight);
-          mainElement.appendChild(renderer.domElement);
-
-          const scene = new THREE.Scene();
-          scene.add(globe);
-          scene.add(new THREE.AmbientLight(0xbbbbbb));
-          scene.add(new THREE.DirectionalLight(0xffffff, 0.6));
-
-          const camera = new THREE.PerspectiveCamera();
-          camera.aspect = window.innerWidth / window.innerHeight;
-          camera.updateProjectionMatrix();
-          camera.position.z = 99;
           globe.rotateOnWorldAxis(
             new THREE.Vector3(0, 1, 0),
             (-p.coords.longitude / 180) * Math.PI
@@ -62,6 +49,25 @@
             new THREE.Vector3(1, 0, 0),
             (p.coords.latitude / 180) * Math.PI
           );
+          const renderer = new THREE.WebGLRenderer();
+          renderer.setPixelRatio( window.devicePixelRatio );
+          mainElement.appendChild(renderer.domElement);
+
+          const scene = new THREE.Scene();
+          scene.add(globe);
+          scene.add(new THREE.AmbientLight(0xbbbbbb));
+          scene.add(new THREE.DirectionalLight(0xffffff, 0.6));
+
+          const camera = new THREE.PerspectiveCamera();
+          camera.position.z = 99;
+          const updateSizes = () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+          }
+          updateSizes()
+          window.addEventListener("resize", updateSizes)
+
           messageElement.remove();
           const button = document.createElement("button");
           button.innerText = "start";
