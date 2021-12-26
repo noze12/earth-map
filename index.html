@@ -26,8 +26,16 @@
         const messageElement = mainElement.querySelector(".message");
 
         Promise.all([
-          new Promise((resolve) =>
-            window.navigator.geolocation.getCurrentPosition((p) => resolve(p))
+          new Promise((resolve, reject) =>
+            navigator.geolocation.getCurrentPosition(
+              resolve,
+              (error) => {
+                messageElement.innerText =
+                  "位置情報が取得できないため動きません";
+                reject(error);
+              },
+              { timeout: 5000 }
+            )
           ),
           fetch("./ne_110m_admin_0_countries.json").then((res) => res.json()),
         ]).then(([p, data]) => {
@@ -50,7 +58,7 @@
             (p.coords.latitude / 180) * Math.PI
           );
           const renderer = new THREE.WebGLRenderer();
-          renderer.setPixelRatio( window.devicePixelRatio );
+          renderer.setPixelRatio(window.devicePixelRatio);
           mainElement.appendChild(renderer.domElement);
 
           const scene = new THREE.Scene();
@@ -64,9 +72,9 @@
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
-          }
-          updateSizes()
-          window.addEventListener("resize", updateSizes)
+          };
+          updateSizes();
+          window.addEventListener("resize", updateSizes);
 
           messageElement.remove();
           const button = document.createElement("button");
