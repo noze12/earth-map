@@ -16,6 +16,9 @@
         width: 200px;
         font-size: 50px;
       }
+      .hideen {
+        display: none;
+      }
     </style>
     <script src="https://unpkg.com/three@0.133.0/build/three.js"></script>
     <script src="./DeviceOrientationControls.js"></script>
@@ -76,11 +79,11 @@
           updateSizes();
           window.addEventListener("resize", updateSizes);
 
-          messageElement.remove();
+          messageElement.classList.add("hideen");
           const button = document.createElement("button");
           button.innerText = "start";
           button.addEventListener("click", () => {
-            button.remove();
+            button.classList.add("hideen");
             const controls = new THREE.DeviceOrientationControls(camera);
 
             const animate = () => {
@@ -89,6 +92,17 @@
               requestAnimationFrame(animate);
             };
             animate();
+            setTimeout(() => {
+              if (
+                controls.deviceOrientation.alpha == null &&
+                controls.deviceOrientation.beta == null &&
+                controls.deviceOrientation.gamma == null
+              ) {
+                messageElement.innerText =
+                  "端末の向きが取得できません。スマホ・タブレット等でみてください";
+                messageElement.classList.remove("hideen");
+              }
+            }, 1000);
           });
           mainElement.appendChild(button);
         });
