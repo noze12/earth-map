@@ -115,7 +115,7 @@
 
 				if ( device ) {
 
-					const alpha =  "webkitCompassHeading" in device ? THREE.MathUtils.degToRad( device.webkitCompassHeading ) : (
+					const alpha =  "webkitCompassHeading" in device ? THREE.MathUtils.degToRad( -device.webkitCompassHeading ) : (
 						device.alpha ? THREE.MathUtils.degToRad( device.alpha ) + scope.alphaOffset : 0 // Z
 					)
 
